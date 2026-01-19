@@ -16,10 +16,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(usersSeeder::class);
+        $this->call(ContractTemplateSeeder::class);
         $this->call(contractTypeSeeder::class);
         $this->call(contractStatusSeeder::class);
         $this->call(contractSeeder::class);
         $this->call(ContractFieldMappingsSeeder::class);
         $this->call(companySeeder::class);
+        
     }
 }

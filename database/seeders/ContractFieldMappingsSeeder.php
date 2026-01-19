@@ -71,6 +71,21 @@ class ContractFieldMappingsSeeder extends Seeder
                 'updated_at' => now(),
             ]
         );
+        // CONTRACT DURATION
+        ContractFieldMapping::Create(
+            [
+                'contract_type_id' => 1,
+                'field_name' => 'contract_duration_month',
+                'display_name' => 'Duração do Contrato',
+                'prefix' => '',
+                'format' => 'string',
+                'field_key' => 'CONTRACT_FIELD_CONTRACT_DURATION',
+                'font_size' => 10,
+                'color' => '0,0,0',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
         // CONTRACTOR NAME 
         ContractFieldMapping::Create(
             [

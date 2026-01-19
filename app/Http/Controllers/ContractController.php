@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Models\Contract;
 use App\Models\ContractType;
 use App\Models\Company;
+use App\Models\Template;
 use App\Models\ContractFieldMapping;
 use Illuminate\Http\Request;
 
@@ -38,17 +39,40 @@ class ContractController extends Controller
     {
         $user = auth()->user();
 
-        $contractTypes = ContractType::select('id', 'contract_type_name')->get();
+        /* =======================
+           TIPOS DE CONTRATO
+        ======================= */
+        $contractTypes = ContractType::select(
+            'id',
+            'contract_type_name',
+            'contract_template_id'
+        )->get();
 
         $fields = collect();
+        $templateHtml = null;
 
+        /* =======================
+           CAMPOS + TEMPLATE
+        ======================= */
         if ($request->filled('contract_type_id')) {
-            $fields = ContractFieldMapping::where(
-                'contract_type_id',
-                $request->contract_type_id
-            )->get();
+            $contractType = ContractType::find($request->contract_type_id);
+
+            if ($contractType) {
+                $fields = ContractFieldMapping::where(
+                    'contract_type_id',
+                    $contractType->id
+                )->get();
+
+                if ($contractType->contract_template_id) {
+                    $template = Template::find($contractType->contract_template_id);
+                    $templateHtml = $template?->html_content;
+                }
+            }
         }
 
+        /* =======================
+           EMPRESA DO USUÁRIO
+        ======================= */
         $company = null;
 
         if ($user && $user->company_id) {
@@ -56,16 +80,17 @@ class ContractController extends Controller
 
             if ($companyModel) {
                 $company = [
-                    'name' => $companyModel->company_name,
-                    'document' => $companyModel->company_document,
-                    'agency' => $companyModel->company_agency,
-                    'account' => $companyModel->company_account,
-                    'bank' => $companyModel->company_bank,
-                    'pix' => $companyModel->company_pix,
-                    'city' => $companyModel->company_city,
+                    'company_name' => $companyModel->company_name,
+                    'company_document' => $companyModel->company_document,
+                    'company_agency' => $companyModel->company_agency,
+                    'company_account' => $companyModel->company_account,
+                    'company_bank' => $companyModel->company_bank,
+                    'company_pix' => $companyModel->company_pix,
+                    'company_city' => $companyModel->company_city,
                 ];
             }
         }
+
         return Inertia::render('Contracts/CreateContract', [
             'contractTypes' => $contractTypes,
             'fields' => $fields,
@@ -73,21 +98,15 @@ class ContractController extends Controller
                 ? (int) $request->contract_type_id
                 : null,
             'company' => $company,
+            'templateHtml' => $templateHtml,
         ]);
-    }
-
-    public function getFieldMappingsForType(ContractType $contractType)
-    {
-        $fields = ContractFieldMapping::where('contract_type_id', $contractType)
-            ->orderBy('order')
-            ->get();
-        return $fields;
     }
 
     public function showDetails()
     {
         $id = request()->query('id');
         $contract = Contract::findOrFail($id);
+
         return Inertia::render('Contracts/ContractDetail', [
             'contract' => $contract,
         ]);

@@ -15,12 +15,12 @@ class contractTypeSeeder extends Seeder
     {
         ContractType::create([
             'contract_type_name' => 'Trafego Pago',
-            'template_path' => "template_trafego_pago.docx", // Assuming no template is provided
+            'contract_template_id' => "1", // Assuming no template is provided
         ]);
 
         ContractType::create([
             'contract_type_name' => 'Social Media',
-            'template_path' => "template_trafego_pago.docx", // Assuming no template is provided
+            'contract_template_id' => "1", // Assuming no template is provided
         ]);
     }
 }

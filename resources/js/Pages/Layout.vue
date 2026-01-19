@@ -11,6 +11,7 @@ const showErrorModal = computed(() => {
 </script>
 
 <template>
+
     <main>
         <header>
             <Link href="/">Home</Link>

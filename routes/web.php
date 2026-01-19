@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ContractFileController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
@@ -15,4 +16,6 @@ Route::get('/contracts', [ContractController::class, 'index'])->name('contracts.
 Route::get('/contracts/create', [ContractController::class, 'startContract'])->name('contracts.startContract');
 
 Route::get('/contract/details', [ContractController::class, 'showDetails'])->name('contracts.showDetails');
+
+Route::post('/contracts/upload-html', [ContractFileController::class, 'store']);
 
