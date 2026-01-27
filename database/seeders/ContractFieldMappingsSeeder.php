@@ -214,19 +214,5 @@ class ContractFieldMappingsSeeder extends Seeder
             ]
         );
 
-        ContractFieldMapping::Create(
-            [
-                'contract_type_id' => 1,
-                'field_name' => 'signature',
-                'display_name' => '',
-                'prefix' => '',
-                'format' => 'string',
-                'field_key' => 'CONTRACT_FIELD_SIGNATURE',
-                'font_size' => 10,
-                'color' => '0,0,0',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]
-        );
     }
 }

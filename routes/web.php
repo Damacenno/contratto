@@ -14,6 +14,7 @@ Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 
 Route::get('/contracts', [ContractController::class, 'index'])->name('contracts.index');
 Route::get('/contracts/create', [ContractController::class, 'startContract'])->name('contracts.startContract');
+Route::post('/contracts', [ContractFileController::class, 'store'])->name('contracts.store');
 
 Route::get('/contract/details', [ContractController::class, 'showDetails'])->name('contracts.showDetails');
 
