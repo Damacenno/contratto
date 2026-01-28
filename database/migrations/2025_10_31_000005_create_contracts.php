@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->foreignId('contract_type_id')->constrained('contract_types');
             $table->foreignId('contract_status_id')->constrained('contract_statuses');
             $table->string('client_name');
+            $table->integer('contract_duration_months');
             $table->integer('payment_total');
             $table->integer('regret_period');
             $table->integer('payment_initial');

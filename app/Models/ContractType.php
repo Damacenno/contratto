@@ -12,4 +12,9 @@ class ContractType extends Model
     {
         return $this->hasMany(Contract::class, 'contract_type_id');
     }
+
+    public function template()
+    {
+        return $this->belongsTo(Template::class, 'contract_template_id');
+    }
 }

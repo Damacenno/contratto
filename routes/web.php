@@ -16,7 +16,6 @@ Route::get('/contracts', [ContractController::class, 'index'])->name('contracts.
 Route::get('/contracts/create', [ContractController::class, 'startContract'])->name('contracts.startContract');
 Route::post('/contracts', [ContractFileController::class, 'store'])->name('contracts.store');
 
-Route::get('/contract/details', [ContractController::class, 'showDetails'])->name('contracts.showDetails');
-
+Route::get('/contracts/details/{contract}', [ContractController::class, 'showDetails'])->name('contracts.showDetails');
 Route::post('/contracts/upload-html', [ContractFileController::class, 'store']);
 

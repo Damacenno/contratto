@@ -15,7 +15,7 @@ class ContractController extends Controller
 {
     public function index()
     {
-        $contracts = Contract::with('company')
+        $contracts = Contract::with(['company', 'status'])
             ->get()
             ->filter(fn($contract) => Gate::allows('view', $contract))
             ->values();
@@ -28,6 +28,7 @@ class ContractController extends Controller
                 'client_name' => $contract->client_name,
                 'start_date' => $contract->start_date,
                 'end_date' => $contract->end_date,
+                'status' => $contract->status ? $contract->status->contract_status_name : 'Sem Status',
                 'can' => [
                     'view' => true,
                 ],
@@ -39,9 +40,6 @@ class ContractController extends Controller
     {
         $user = auth()->user();
 
-        /* =======================
-           TIPOS DE CONTRATO
-        ======================= */
         $contractTypes = ContractType::select(
             'id',
             'contract_type_name',
@@ -51,9 +49,6 @@ class ContractController extends Controller
         $fields = collect();
         $templateHtml = null;
 
-        /* =======================
-           CAMPOS + TEMPLATE
-        ======================= */
         if ($request->filled('contract_type_id')) {
             $contractType = ContractType::find($request->contract_type_id);
 
@@ -69,10 +64,6 @@ class ContractController extends Controller
                 }
             }
         }
-
-        /* =======================
-           EMPRESA DO USUÁRIO
-        ======================= */
         $company = null;
 
         if ($user && $user->company_id) {
@@ -102,13 +93,27 @@ class ContractController extends Controller
         ]);
     }
 
-    public function showDetails()
+    public function showDetails(Contract $contract)
     {
-        $id = request()->query('id');
-        $contract = Contract::findOrFail($id);
 
+        if (auth()->user()->cannot('view', $contract)) {
+            return redirect()->route('contracts.index')->with([
+                'error' => 'Seu nível de acesso não permite visualizar este contrato.',
+                'error_status' => 403
+            ]);
+        }
+        $contract->load(['status', 'type.template', 'company.company']);
+        $templateHtml = $contract->type?->template?->html_content ?? '';
+        
         return Inertia::render('Contracts/ContractDetail', [
-            'contract' => $contract,
+            'contract' => array_merge($contract->toArray(), [
+                'status_name' => $contract->status?->contract_status_name ?? 'Pendente',
+                'company_name' => $contract->company?->company?->company_name,
+                'company_city' => $contract->company?->company?->company_city,
+                'company_document' => $contract->company?->company?->company_document,
+                'contractor_name' => $contract->client_name
+            ]),
+            'templateHtml' => $templateHtml,
         ]);
     }
 }
