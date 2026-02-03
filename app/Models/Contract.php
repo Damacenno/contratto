@@ -15,6 +15,7 @@ protected $fillable = [
     'client_name',
     'payment_total',
     'regret_period',
+    'contract_duration_months',
     'payment_initial',
     'payment_final',
     'start_date',

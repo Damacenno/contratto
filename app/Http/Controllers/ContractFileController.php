@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use App\Models\Contract;
+use App\Http\Controllers\ContractController;
 class ContractFileController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request, ContractController $ContractController)
     {
         $request->validate([
             'pdf_file' => 'required|mimes:pdf|max:10240',
@@ -23,27 +23,9 @@ class ContractFileController extends Controller
             // $url = Storage::disk('s3')->url($fileName);
 
             $url = "urltesteparainserir";
-            // dd($request);
-            $contract = Contract::create([
-                'contract_number' => $request->contract_number,
-                'contract_type_id' => $request->contract_type_id,
-                'contract_company_owner_id' => auth()->user()->company_id,
-                'contract_status_id' => 1,
-                'client_name' => $request->contractor_name,
-                'payment_total' => $request->payment_total,
-                'regret_period' => $request->regret_period_days,
-                'payment_initial' => $request->payment_initial,
-                'payment_final' => $request->payment_final,
-                'start_date' => now(),
-                'end_date' => now()->addMonths((int) $request->contract_duration_month),
-                'contract_duration_months' => $request->contract_duration_month,
-                'contract_file_url' => $url,
-                'is_signed' => false,
-                'access_level' => 'owner',
-            ]);
-
-            return redirect()->route('contracts.showDetails', ['contract' => $contract->id])
-                ->with('success', 'Contrato salvo com sucesso!');
+            $request->merge(['contract_file_url' => $url]);
+            $contract = $ContractController->create($request->all());
+            return redirect()->route('contracts.showDetails', ['contract' => $contract->id]);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Erro ao salvar contrato: ' . $e->getMessage());
         }

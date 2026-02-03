@@ -71,7 +71,7 @@
         </div>
         <!-- ainda nao funciona -->
         <div class="px-6 py-3 border-t border-slate-200 flex items-center justify-between">
-            <span class="text-xs text-slate-500">Mostrando 1-3 de 124 resultados</span>
+            <span class="text-xs text-slate-500">Mostrando 1-3 de 124 resultados - NÃO FUNCONA :/</span>
             <div class="flex gap-1">
                 <button class="px-2 py-1 text-xs border border-slate-200 rounded text-slate-500 disabled:opacity-50"
                     disabled>Ant</button>

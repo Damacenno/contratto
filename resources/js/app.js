@@ -7,11 +7,15 @@ createInertiaApp({
     resolve: (name) => {
         const pages = import.meta.glob("./Pages/**/*.vue", { eager: true });
         let page = pages[`./Pages/${name}.vue`];
-        const isLoginPage = name.includes('LoginForm') || name.startsWith('Users/Log');
-        if (!isLoginPage) {
+
+        const isPublicPage =
+            name.includes('LoginForm') ||
+            name.startsWith('Users/Log') ||
+            name.startsWith('Public/'); 
+
+        if (!isPublicPage) {
             page.default.layout = page.default.layout || Layout;
         }
-
         return page;
     },
     setup({ el, App, props, plugin }) {

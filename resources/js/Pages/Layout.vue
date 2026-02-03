@@ -31,6 +31,9 @@ const showErrorModal = computed(() => {
                             <Link href="/contracts">Contratos</Link>
                         </a>
                         <a href="#" class="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">
+                            <Link href="/templates">Templates</Link>
+                        </a>
+                        <a href="#" class="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">
                             <Link href="/contracts/create">Criar</Link>
                         </a>
                     </div>

@@ -12,7 +12,7 @@ class LoginController extends Controller
         return Inertia::render('Users/LoginForm');
     }
 
-    public function store(Request $request)
+    public function login(Request $request)
     {
         $credentials = $request->validate([
             'email' => 'required|email',
@@ -23,7 +23,8 @@ class LoginController extends Controller
             $request->session()->regenerate();
             return redirect()->intended('/');
         }
- 
-        return redirect()->route('login.index')->with('error', 'Invalid credentials.');
+
+        // DEBUG
+        dd($request->all(), auth()->attempt($credentials));
     }
 }
