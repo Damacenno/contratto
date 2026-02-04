@@ -47,7 +47,7 @@
                         <td class=" px-6 py-4 text-sm font-medium text-navy font-mono">{{ contract.contract_number }}
                         </td>
                         <td class="px-6 py-4 text-sm text-slate-600">{{ contract.client_name }}</td>
-                        <td class="px-6 py-4 text-sm text-slate-500">{{ contract.start_date }}</td>
+                        <td class="px-6 py-4 text-sm text-slate-500">{{ contract.created_at }}</td>
                         <td class="px-6 py-4">
                             <span
                                 class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20">

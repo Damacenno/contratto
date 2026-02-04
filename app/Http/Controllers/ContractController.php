@@ -11,7 +11,6 @@ use App\Models\Template;
 use App\Models\ContractFieldMapping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Auth;
 
 class ContractController extends Controller
 {
@@ -28,7 +27,7 @@ class ContractController extends Controller
                 'contract_number' => $contract->contract_number,
                 'access_level' => $contract->access_level,
                 'client_name' => $contract->client_name,
-                'start_date' => $contract->start_date,
+                'created_at' => $contract->created_at->format('Y-m-d H:i:s'),
                 'end_date' => $contract->end_date,
                 'status' => $contract->status ? $contract->status->contract_status_name : 'Sem Status',
                 'can' => [
@@ -129,7 +128,6 @@ class ContractController extends Controller
 
     public function create($object)
     {
-        // dd($object['contract_number']);
         return Contract::create([
             'contract_number' => $object['contract_number'],
             'contract_type_id' => $object['contract_type_id'],
@@ -140,8 +138,6 @@ class ContractController extends Controller
             'regret_period' => $object['regret_period_days'],
             'payment_initial' => $object['payment_initial'],
             'payment_final' => $object['payment_final'],
-            'start_date' => now(),
-            'end_date' => now()->addMonths((int) $object['contract_duration_month']),
             'contract_duration_months' => $object['contract_duration_month'],
             'contract_file_url' => $object['contract_file_url'],
             'is_signed' => false,

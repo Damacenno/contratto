@@ -6,18 +6,13 @@ const props = defineProps({
     templates: Array
 });
 
-// Estado para controlar qual template está sendo visualizado
-// Se for null, mostra a lista. Se tiver objeto, mostra o template.
 const selectedTemplate = ref(null);
 
-// Função para selecionar
 const selectTemplate = (template) => {
     selectedTemplate.value = template;
-    // Scroll para o topo para facilitar a leitura
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-// Função para voltar à lista
 const clearSelection = () => {
     selectedTemplate.value = null;
 };
@@ -26,8 +21,8 @@ const clearSelection = () => {
 <template>
     <Head title="Gerenciador de Templates" />
 
-    <div class="min-h-screen bg-gray-100 p-8">
-        <div class="max-w-5xl mx-auto">
+    <div class="min-h-screen px-4">
+        <div class=" mx-auto">
             
             <div class="flex items-center justify-between mb-8">
                 <div>
@@ -90,7 +85,6 @@ const clearSelection = () => {
 </template>
 
 <style>
-/* Estilização extra para o conteúdo renderizado via v-html */
 .prose {
     color: #374151;
     line-height: 1.8;
