@@ -1,53 +1,55 @@
 <template>
     <AppHeader :title="'Contrato: ' + contract.contract_number" />
 
-    <div class="max-w-[1400px] mx-auto p-6 flex gap-6 h-[calc(100vh-100px)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-3 gap-6 auto-rows-max lg:auto-rows-min">
 
-        <div class="flex-1 flex flex-col min-w-0">
-            <div class="flex justify-between items-center mb-4 bg-white p-4 rounded-lg shadow-sm border">
-                <div>
-                    <h2 class="text-xl font-bold text-slate-800">{{ contract.contract_number }}</h2>
-                    <p class="text-sm text-slate-500">Cliente: {{ contract.client_name }}</p>
+        <div class="lg:col-span-2 flex flex-col gap-4 min-w-0">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-slate-200">
+                <div class="flex-1">
+                    <h2 class="text-2xl font-bold text-slate-900">{{ contract.contract_number }}</h2>
+                    <p class="text-sm text-slate-600 mt-1">📊 Cliente: <span class="font-medium">{{ contract.client_name }}</span></p>
                 </div>
-                <div class="flex gap-2">
+                <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                     <button @click="generatePDF"
-                        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition cursor-pointer text-sm">
-                        Baixar PDF
+                        class="flex-1 sm:flex-none bg-blue-600 text-white px-4 py-2.5 rounded-lg hover:bg-blue-700 transition cursor-pointer text-sm font-medium shadow-sm hover:shadow-md">
+                        📥 Baixar PDF
                     </button>
                     <button @click="generateSigningLink"
-                        class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700 transition cursor-pointer text-sm font-semibold">
-                        Gerar Link de Assinatura
+                        class="flex-1 sm:flex-none bg-emerald-600 text-white px-4 py-2.5 rounded-lg hover:bg-emerald-700 transition cursor-pointer text-sm font-semibold shadow-sm hover:shadow-md">
+                        ✍️ Link de Assinatura
                     </button>
                 </div>
             </div>
 
-            <div class="bg-slate-100 border rounded-lg p-8 overflow-y-auto flex-1 shadow-inner">
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 sm:p-6 overflow-y-auto shadow-sm text-sm" style="max-height: calc(100vh - 280px);">
                 <div id="contract-pdf-content"
-                    class="paper mx-auto bg-white p-[20mm] shadow-2xl min-h-[297mm] w-[210mm]"
+                    class="paper mx-auto bg-white p-4 sm:p-6 md:p-8 shadow-md rounded-lg max-w-2xl border border-slate-100"
                     v-html="renderedTemplate" />
             </div>
         </div>
 
-        <div class="w-80 flex flex-col gap-4">
-            <div class="bg-white border rounded-lg shadow-sm flex flex-col h-full">
-                <div class="p-4 border-b bg-slate-50 rounded-t-lg">
-                    <h3 class="font-bold text-slate-700 flex items-center gap-2">
-                        <span>📋 Log de Eventos</span>
+        <div class="lg:col-span-1 flex flex-col">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-full">
+                <div class="p-4 sm:p-5 border-b bg-gradient-to-r from-slate-50 to-slate-100">
+                    <h3 class="font-bold text-slate-800 flex items-center gap-2 text-base">
+                        <span class="text-lg">📋</span>
+                        <span>Log de Eventos</span>
                     </h3>
                 </div>
 
-                <div class="p-4 overflow-y-auto flex-1">
-                    <ul class="space-y-4">
+                <div class="p-4 sm:p-5 overflow-y-auto flex-1" style="max-height: calc(100vh - 280px);">
+                    <ul class="space-y-3">
                         <li v-for="(event, index) in contract.events" :key="index"
-                            class="relative pl-6 pb-4 border-l-2 border-slate-200 last:border-0">
-                            <div class="absolute -left-[7px] top-1 w-3 h-3 rounded-full bg-slate-300"></div>
+                            class="relative pl-6 pb-3 border-l-2 border-slate-200 last:border-0 last:pb-0">
+                            <div class="absolute -left-[7px] top-1.5 w-3 h-3 rounded-full bg-slate-400"></div>
 
-                            <p class="text-xs font-bold text-slate-600 uppercase">{{ event.date }}</p>
-                            <p class="text-sm text-slate-800 font-medium leading-tight">{{ event.description }}</p>
-                            <p class="text-xs text-slate-500 italic">por: {{ event.user }}</p>
+                            <p class="text-xs font-semibold text-slate-600 uppercase tracking-wide">{{ event.date }}</p>
+                            <p class="text-sm text-slate-800 font-medium leading-snug mt-0.5">{{ event.description }}</p>
+                            <p class="text-xs text-slate-500 italic mt-1">👤 {{ event.user }}</p>
                         </li>
 
-                        <li v-if="!contract.events?.length" class="text-sm text-slate-400 text-center py-10">
+                        <li v-if="!contract.events?.length" class="text-sm text-slate-400 text-center py-12">
+                            <span class="text-2xl block mb-2">📭</span>
                             Nenhum evento registrado.
                         </li>
                     </ul>
@@ -59,8 +61,12 @@
 
 <script setup>
 import { computed } from "vue";
+import { usePage } from "@inertiajs/vue3";
 import html2pdf from "html2pdf.js";
 import axios from "axios";
+import AppHeader from "@/Components/AppHeader.vue";
+
+const page = usePage();
 
 const props = defineProps({
     contract: Object,
@@ -117,8 +123,9 @@ const generateSigningLink = async () => {
 .paper {
     font-family: 'Times New Roman', Times, serif;
     color: #000;
-    line-height: 1.5;
+    line-height: 1.6;
     word-wrap: break-word;
+    font-size: 14px;
 }
 
 ::-webkit-scrollbar {

@@ -22,7 +22,7 @@ const showErrorModal = computed(() => {
 
 <template>
     <div
-        class="min-h-screen bg-slate-50 text-slate-600 font-sans antialiased selection:bg-purple-100 selection:text-purple-900 pb-20">
+        class="bg-slate-50 text-slate-600 font-sans antialiased selection:bg-purple-100 selection:text-purple-900 flex flex-col min-h-screen">
 
         <nav class="hidden md:block sticky top-0 z-40 w-full bg-white/80 backdrop-blur-md border-b border-slate-200">
             <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -140,7 +140,7 @@ const showErrorModal = computed(() => {
 
         </div>
 
-        <article class="max-w-7xl mx-auto px-6 py-10">
+        <article class="flex-1 max-w-7xl mx-auto px-6 py-10 w-full">
             <slot />
         </article>
 

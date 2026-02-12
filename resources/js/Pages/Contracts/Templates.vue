@@ -21,8 +21,8 @@ const clearSelection = () => {
 <template>
     <Head title="Gerenciador de Templates" />
 
-    <div class="min-h-screen px-4">
-        <div class=" mx-auto">
+    <div class="w-full">
+        <div class="max-w-7xl mx-auto">
             
             <div class="flex items-center justify-between mb-8">
                 <div>
@@ -72,9 +72,9 @@ const clearSelection = () => {
                     </div>
                 </div>
 
-                <div class="p-12 md:p-20">
+                <div class="p-6 sm:p-8 md:p-12 overflow-y-auto">
                     <article 
-                        class="prose prose-indigo max-w-none mx-auto"
+                        class="prose prose-indigo max-w-4xl mx-auto text-sm sm:text-base"
                         v-html="selectedTemplate.html_content"
                     ></article>
                 </div>

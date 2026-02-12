@@ -51,7 +51,7 @@ const getGanttStyle = (startDate, endDate) => {
 
     <Head title="Dashboard" />
 
-    <div class="p-4 bg-gray-50 min-h-screen">
+    <div class="p-4 bg-gray-50">
         <div class="max-w-7xl mx-auto space-y-8">
 
             <h2 class="block md:hidden font-bold">DASHBOARD</h2>
@@ -104,7 +104,7 @@ const getGanttStyle = (startDate, endDate) => {
                     </table>
                 </div>
 
-                <div class="space-y-4">
+                <div class="space-y-4 hidden lg:block">
                     <h3 class="font-bold text-gray-700">Acesso Rápido</h3>
                     <div v-for="template in quickTemplates" :key="template.id">
                         <Link :href="`/contracts/create?contract_type_id=${template.contract_type[0]?.id}`"

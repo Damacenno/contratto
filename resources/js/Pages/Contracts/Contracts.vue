@@ -1,6 +1,8 @@
 <template>
     <AppHeader title="Contratos" />
-
+    <div class="pb-4">
+        <h2 class="block md:hidden font-bold">Meus Contratos</h2>
+    </div>
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         <div
             class="p-4 border-b border-slate-200 flex flex-col sm:flex-row gap-4 justify-between items-center bg-white">
