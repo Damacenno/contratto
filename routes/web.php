@@ -7,7 +7,13 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ContractFileController;
 
 
-Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/', function () {
+    if (!auth()->check()) {
+        return view('landing');
+    }
+
+    return app(HomeController::class)->index();
+})->name('index');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login.index');
 Route::post('/login', [LoginController::class, 'login'])->name('login.store');
